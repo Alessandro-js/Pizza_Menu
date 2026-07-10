@@ -4,7 +4,7 @@ export default function AuthBranding({ styles, theme }) {
   return (
     <View style={styles.purpleBox}>
       <Image
-        source={require("../../../assets/LogoApp.png")}
+        source={require("../../../assets/image/LogoApp.png")}
         resizeMode="contain"
         style={{
           width: 300,
@@ -16,7 +16,7 @@ export default function AuthBranding({ styles, theme }) {
       />
 
       <Image
-        source={require("../../../assets/Powered.png")}
+        source={require("../../../assets/image/Powered.png")}
         resizeMode="contain"
         style={{
           width: 120,

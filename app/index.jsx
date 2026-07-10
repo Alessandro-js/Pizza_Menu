@@ -28,7 +28,7 @@ export default function StartupScreen() {
     <View style={styles.loadingScreen}>
       <View style={styles.loadingCard}>
         <Image
-          source={require("../assets/LogoApp.png")}
+          source={require("../assets/image/LogoApp.png")}
           resizeMode="contain"
           style={styles.loadingLogo}
         />
