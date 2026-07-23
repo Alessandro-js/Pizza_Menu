@@ -16,7 +16,7 @@ export function useLoginFlow({ isAuthenticated, login, router }) {
 
   useEffect(() => {
     if (isAuthenticated) {
-      router.replace("./eventscreen");
+      router.replace("/home");
     }
   }, [isAuthenticated, router]);
 
@@ -37,7 +37,7 @@ export function useLoginFlow({ isAuthenticated, login, router }) {
       const status = await login(trimmedEmail, password);
       switch (status) {
         case 200:
-          router.replace("./eventscreen");
+          router.replace("/home");
           break;
         case 403:
           Alert.alert(

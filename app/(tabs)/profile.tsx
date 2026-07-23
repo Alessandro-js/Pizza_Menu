@@ -1,3 +1,4 @@
+import { useRouter } from 'expo-router';
 import {
   ScrollView,
   StyleSheet,
@@ -7,6 +8,7 @@ import {
 } from 'react-native';
 import { ArtisanColors } from '@/constants/theme';
 import { Image } from 'expo-image';
+import { useAuth } from '../contexts/AuthContext';
 
 const CHEF_IMAGE = 'https://lh3.googleusercontent.com/aida-public/AB6AXuDEtd1iOEbCTRfF0LhI5TIxUZyREqYtRjUbegItmLqTm-6D8Od8VfFButa-7xoHjryp_qa1fij-3CowglbhUZo-UDmoHzr62xZMVEwRpe76Ynj4BBlPuK1KHWMyHAcei11Ut_lqfAKP_7td1K5rpS0_ZCuNyVTDX-AIdJt5D-yrDMWRCzVyOUNPO0WNVnNr1MzQoulsA72x5Rm_7WqV2SEuapnPtAykLW9-0H7W0kfWXKz4c7bACE2YngqxYbQ2bY3hL-1sBDejrA';
 
@@ -21,6 +23,13 @@ const MENU_ITEMS = [
 ];
 
 export default function ProfileScreen() {
+  const router = useRouter();
+  const { logout } = useAuth();
+
+  const handleLogout = async () => {
+    await logout();
+    router.replace("/login");
+  };
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
@@ -73,7 +82,7 @@ export default function ProfileScreen() {
         </View>
 
         {/* Logout */}
-        <TouchableOpacity style={styles.logoutButton}>
+        <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
           <Text style={styles.logoutText}>Esci</Text>
         </TouchableOpacity>
 

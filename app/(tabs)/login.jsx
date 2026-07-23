@@ -1,23 +1,20 @@
 import { useRouter } from "expo-router";
-import { useContext } from "react";
 import {
+  Image,
   KeyboardAvoidingView,
   Modal,
+  Platform,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
-import AuthBranding from "./components/auth/AuthBranding";
-import { ThemeContext } from "./components/ThemeContext";
-import { useAuth } from "./contexts/AuthContext";
-import { useLoginFlow } from "./hooks/useLoginFlow";
-import { styles as createStyles } from "./styles/IndexStyles";
+import { ArtisanColors } from "@/constants/theme";
+import { useAuth } from "../contexts/AuthContext";
+import { useLoginFlow } from "../hooks/useLoginFlow";
 
 export default function Login() {
   const router = useRouter();
-  const { theme } = useContext(ThemeContext);
-  const styles = createStyles(theme);
   const { isAuthenticated, login } = useAuth();
   const {
     email,
@@ -40,16 +37,19 @@ export default function Login() {
   } = useLoginFlow({ isAuthenticated, login, router });
 
   return (
-    <KeyboardAvoidingView behavior="padding" style={styles.container}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      style={styles.container}
+    >
       <View style={styles.content}>
-        <AuthBranding styles={styles} theme={theme} />
+        <LoginBranding />
 
         <Text style={styles.subtitle}>Accedi al tuo account</Text>
 
         <TextInput
           style={styles.input}
           placeholder="Email"
-          placeholderTextColor={theme.textMuted}
+          placeholderTextColor={ArtisanColors.onSurfaceVariant}
           value={email}
           onChangeText={setEmail}
           keyboardType="email-address"
@@ -59,7 +59,7 @@ export default function Login() {
         <TextInput
           style={styles.input}
           placeholder="Password"
-          placeholderTextColor={theme.textMuted}
+          placeholderTextColor={ArtisanColors.onSurfaceVariant}
           value={password}
           onChangeText={setPassword}
           secureTextEntry
@@ -85,7 +85,7 @@ export default function Login() {
           <Text style={styles.footerText}>Password dimenticata?</Text>
         </TouchableOpacity>
       </View>
-      {/*modal recupra password invio email */}
+
       <Modal
         transparent
         animationType="fade"
@@ -98,7 +98,7 @@ export default function Login() {
             <TextInput
               style={styles.input}
               placeholder="Inserisci la tua email"
-              placeholderTextColor={theme.textMuted}
+              placeholderTextColor={ArtisanColors.onSurfaceVariant}
               value={forgotPasswordEmail}
               onChangeText={setForgotPasswordEmail}
               keyboardType="email-address"
@@ -114,14 +114,17 @@ export default function Login() {
 
             <TouchableOpacity
               style={styles.closeModalButton}
-              onPress={() => setForgotPasswordModalVisible(false),setForgotPasswordOtpModalVisible(false)  }
+              onPress={() => {
+                setForgotPasswordModalVisible(false);
+                setForgotPasswordOtpModalVisible(false);
+              }}
             >
               <Text style={styles.closeModalText}>Chiudi</Text>
             </TouchableOpacity>
           </View>
         </View>
       </Modal>
-      {/*Modal recupero password OTP */}
+
       <Modal
         transparent
         animationType="fade"
@@ -134,7 +137,7 @@ export default function Login() {
             <TextInput
               style={styles.input}
               placeholder="Inserisci la tua email"
-              placeholderTextColor={theme.textMuted}
+              placeholderTextColor={ArtisanColors.onSurfaceVariant}
               value={forgotPasswordEmail}
               onChangeText={setForgotPasswordEmail}
               keyboardType="email-address"
@@ -143,7 +146,7 @@ export default function Login() {
             <TextInput
               style={styles.input}
               placeholder="Inserisci il codice OTP"
-              placeholderTextColor={theme.textMuted}
+              placeholderTextColor={ArtisanColors.onSurfaceVariant}
               value={forgotPasswordOtp}
               onChangeText={setForgotPasswordOtp}
               keyboardType="number-pad"
@@ -152,7 +155,7 @@ export default function Login() {
             <TextInput
               style={styles.input}
               placeholder="Nuova password"
-              placeholderTextColor={theme.textMuted}
+              placeholderTextColor={ArtisanColors.onSurfaceVariant}
               value={forgotPasswordNewPassword}
               onChangeText={setForgotPasswordNewPassword}
               secureTextEntry
@@ -175,3 +178,142 @@ export default function Login() {
     </KeyboardAvoidingView>
   );
 }
+
+function LoginBranding() {
+  return (
+    <View style={styles.brandingBox}>
+      <Image
+        source={require("../../assets/image/LogoApp.png")}
+        resizeMode="contain"
+        style={styles.brandingLogo}
+      />
+      <Image
+        source={require("../../assets/image/Powered.png")}
+        resizeMode="contain"
+        style={styles.poweredBy}
+      />
+    </View>
+  );
+}
+
+const styles = {
+  container: {
+    flex: 1,
+    backgroundColor: ArtisanColors.background,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+  },
+  content: {
+    width: "100%",
+    maxWidth: 350,
+    backgroundColor: ArtisanColors.surfaceContainerLowest,
+    borderRadius: 12,
+    overflow: "hidden",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  brandingBox: {
+    backgroundColor: ArtisanColors.primary,
+    marginBottom: 16,
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    alignItems: "center",
+  },
+  brandingLogo: {
+    width: 300,
+    height: 150,
+    alignSelf: "center",
+  },
+  poweredBy: {
+    width: 120,
+    height: 56,
+    alignSelf: "flex-start",
+  },
+  subtitle: {
+    fontSize: 14,
+    color: ArtisanColors.onSurfaceVariant,
+    marginTop: 4,
+    marginBottom: 16,
+    textAlign: "center",
+    paddingHorizontal: 30,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: ArtisanColors.outlineVariant,
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    marginBottom: 16,
+    marginHorizontal: 30,
+    fontSize: 14,
+    color: ArtisanColors.onSurface,
+    backgroundColor: ArtisanColors.surfaceContainerLow,
+  },
+  button: {
+    backgroundColor: ArtisanColors.primary,
+    borderRadius: 8,
+    paddingVertical: 14,
+    marginTop: 8,
+    marginHorizontal: 30,
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "#ffffff",
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  changePasswordButton: {
+    backgroundColor: "transparent",
+    alignSelf: "center",
+    paddingVertical: 8,
+  },
+  createAccountButton: {
+    backgroundColor: "transparent",
+    borderWidth: 1.5,
+    borderColor: ArtisanColors.primary,
+  },
+  createAccountButtonText: {
+    color: ArtisanColors.primary,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.35)",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+  },
+  modalContent: {
+    width: "100%",
+    maxWidth: 350,
+    backgroundColor: ArtisanColors.surfaceContainerLowest,
+    borderRadius: 12,
+    padding: 20,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: ArtisanColors.onSurface,
+    textAlign: "center",
+    marginBottom: 16,
+  },
+  closeModalButton: {
+    marginTop: 12,
+    alignSelf: "center",
+  },
+  closeModalText: {
+    color: ArtisanColors.primary,
+    fontSize: 14,
+    fontWeight: "600",
+  },
+  footerText: {
+    marginTop: 16,
+    marginBottom: 20,
+    textAlign: "center",
+    fontSize: 12,
+    color: ArtisanColors.onSurfaceVariant,
+  },
+};

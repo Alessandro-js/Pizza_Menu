@@ -1,22 +1,19 @@
 import { useRouter } from "expo-router";
-import { useContext } from "react";
 import {
-    KeyboardAvoidingView,
-    Modal,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Image,
+  KeyboardAvoidingView,
+  Modal,
+  Platform,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import DateTimePicker, { useDefaultStyles } from "react-native-ui-datepicker";
-import AuthBranding from "./components/auth/AuthBranding";
-import { ThemeContext } from "./components/ThemeContext";
-import { useRegisterFlow } from "./hooks/useRegisterFlow";
-import { styles as createStyles } from "./styles/RegisterStyles";
+import { ArtisanColors } from "@/constants/theme";
+import { useRegisterFlow } from "../hooks/useRegisterFlow";
 
 export default function Register() {
-  const { theme } = useContext(ThemeContext);
-  const styles = createStyles(theme);
   const datePickerStyles = useDefaultStyles();
   const router = useRouter();
   const {
@@ -69,16 +66,18 @@ export default function Register() {
   } = useRegisterFlow({ router });
 
   return (
-    <KeyboardAvoidingView behavior="padding" style={styles.container}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      style={styles.container}
+    >
       <View style={styles.content}>
-        <AuthBranding styles={styles} theme={theme} />
+        <RegisterBranding />
         <Text style={styles.subtitle}>Registrati</Text>
-        {/* I campi sono disposti su due colonne per ridurre l'altezza del form. */}
         <View style={styles.inputsContainer}>
           <TextInput
             style={[styles.input, styles.halfInput]}
             placeholder="Nome"
-            placeholderTextColor={theme.textMuted}
+            placeholderTextColor={ArtisanColors.onSurfaceVariant}
             value={name}
             onChangeText={setName}
             autoCapitalize="words"
@@ -86,7 +85,7 @@ export default function Register() {
           <TextInput
             style={[styles.input, styles.halfInput]}
             placeholder="Cognome"
-            placeholderTextColor={theme.textMuted}
+            placeholderTextColor={ArtisanColors.onSurfaceVariant}
             value={surname}
             onChangeText={setSurname}
             autoCapitalize="words"
@@ -94,7 +93,7 @@ export default function Register() {
           <TextInput
             style={[styles.input, styles.halfInput]}
             placeholder="Email"
-            placeholderTextColor={theme.textMuted}
+            placeholderTextColor={ArtisanColors.onSurfaceVariant}
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
@@ -103,7 +102,7 @@ export default function Register() {
           <TextInput
             style={[styles.input, styles.halfInput]}
             placeholder="Telefono"
-            placeholderTextColor={theme.textMuted}
+            placeholderTextColor={ArtisanColors.onSurfaceVariant}
             value={phone}
             onChangeText={setPhone}
             keyboardType="phone-pad"
@@ -118,7 +117,7 @@ export default function Register() {
               <TextInput
                 style={styles.input}
                 placeholder="Data di nascita"
-                placeholderTextColor={theme.textMuted}
+                placeholderTextColor={ArtisanColors.onSurfaceVariant}
                 value={dateOfBirth}
                 editable={false}
               />
@@ -127,28 +126,28 @@ export default function Register() {
           <TextInput
             style={[styles.input, styles.halfInput]}
             placeholder="Indirizzo"
-            placeholderTextColor={theme.textMuted}
+            placeholderTextColor={ArtisanColors.onSurfaceVariant}
             value={address}
             onChangeText={setAddress}
           />
           <TextInput
             style={[styles.input, styles.halfInput]}
             placeholder="Provincia"
-            placeholderTextColor={theme.textMuted}
+            placeholderTextColor={ArtisanColors.onSurfaceVariant}
             value={county}
             onChangeText={setCounty}
           />
           <TextInput
             style={[styles.input, styles.halfInput]}
             placeholder="Comune"
-            placeholderTextColor={theme.textMuted}
+            placeholderTextColor={ArtisanColors.onSurfaceVariant}
             value={city}
             onChangeText={setCity}
           />
           <TextInput
             style={[styles.input, styles.halfInput]}
             placeholder="Codice postale"
-            placeholderTextColor={theme.textMuted}
+            placeholderTextColor={ArtisanColors.onSurfaceVariant}
             value={postalCode}
             onChangeText={(value) =>
               setPostalCode(value.replace(/\D/g, "").slice(0, 5))
@@ -159,7 +158,7 @@ export default function Register() {
           <TextInput
             style={[styles.input, styles.halfInput]}
             placeholder="Codice fiscale"
-            placeholderTextColor={theme.textMuted}
+            placeholderTextColor={ArtisanColors.onSurfaceVariant}
             value={taxCode}
             onChangeText={setTaxCode}
             autoCapitalize="characters"
@@ -167,7 +166,7 @@ export default function Register() {
           <TextInput
             style={[styles.input, styles.halfInput]}
             placeholder="Password"
-            placeholderTextColor={theme.textMuted}
+            placeholderTextColor={ArtisanColors.onSurfaceVariant}
             value={password}
             onChangeText={setPassword}
             secureTextEntry
@@ -175,7 +174,7 @@ export default function Register() {
           <TextInput
             style={[styles.input, styles.halfInput]}
             placeholder="Conferma Password"
-            placeholderTextColor={theme.textMuted}
+            placeholderTextColor={ArtisanColors.onSurfaceVariant}
             value={confirmPassword}
             onChangeText={setConfirmPassword}
             secureTextEntry
@@ -283,8 +282,8 @@ export default function Register() {
                   color: "#000000",
                 },
                 selected: {
-                  backgroundColor: "#5E2367",
-                  borderColor: "#5E2367",
+                  backgroundColor: ArtisanColors.primary,
+                  borderColor: ArtisanColors.primary,
                 },
                 selected_label: {
                   color: "#ffffff",
@@ -359,3 +358,197 @@ export default function Register() {
     </KeyboardAvoidingView>
   );
 }
+
+function RegisterBranding() {
+  return (
+    <View style={styles.brandingBox}>
+      <Image
+        source={require("../../assets/image/LogoApp.png")}
+        resizeMode="contain"
+        style={styles.brandingLogo}
+      />
+    </View>
+  );
+}
+
+const styles = {
+  container: {
+    flex: 1,
+    backgroundColor: ArtisanColors.background,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+  },
+  content: {
+    width: "100%",
+    maxWidth: 350,
+    backgroundColor: ArtisanColors.surfaceContainerLowest,
+    borderRadius: 12,
+    overflow: "hidden",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  brandingBox: {
+    backgroundColor: ArtisanColors.primary,
+    marginBottom: 16,
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    alignItems: "center",
+  },
+  brandingLogo: {
+    width: 300,
+    height: 150,
+    alignSelf: "center",
+  },
+  subtitle: {
+    fontSize: 14,
+    color: ArtisanColors.onSurfaceVariant,
+    marginBottom: 24,
+    textAlign: "center",
+    paddingHorizontal: 30,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: ArtisanColors.outlineVariant,
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    marginBottom: 16,
+    fontSize: 14,
+    color: ArtisanColors.onSurface,
+    backgroundColor: ArtisanColors.surfaceContainerLow,
+  },
+  inputsContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    paddingHorizontal: 30,
+  },
+  halfInput: {
+    width: "48%",
+  },
+  button: {
+    backgroundColor: ArtisanColors.primary,
+    borderRadius: 8,
+    paddingVertical: 14,
+    marginTop: 8,
+    marginHorizontal: 30,
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "#ffffff",
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  registerButton: {
+    backgroundColor: "transparent",
+  },
+  footerText: {
+    marginTop: 16,
+    marginBottom: 20,
+    textAlign: "center",
+    fontSize: 12,
+    color: ArtisanColors.onSurfaceVariant,
+  },
+  registrationText: {
+    top: 2.5,
+    fontSize: 12,
+    color: ArtisanColors.onSurfaceVariant,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContent: {
+    width: "90%",
+    maxWidth: 350,
+    backgroundColor: ArtisanColors.surfaceContainerLowest,
+    borderRadius: 12,
+    padding: 30,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  modalTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: ArtisanColors.onSurface,
+    marginBottom: 8,
+    textAlign: "center",
+  },
+  modalActions: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    gap: 10,
+    marginTop: 14,
+  },
+  modalActionButton: {
+    flex: 1,
+    marginHorizontal: 0,
+  },
+  monthControls: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 8,
+  },
+  monthArrowButton: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: ArtisanColors.primaryFixedDim,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  monthArrowButtonDisabled: {
+    opacity: 0.35,
+  },
+  monthArrowText: {
+    color: ArtisanColors.primary,
+    fontSize: 20,
+    fontWeight: "700",
+    lineHeight: 22,
+  },
+  monthValueText: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: ArtisanColors.onSurface,
+    minWidth: 50,
+    textAlign: "center",
+  },
+  yearControls: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 12,
+  },
+  yearArrowButton: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: ArtisanColors.primaryFixedDim,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  yearArrowButtonDisabled: {
+    opacity: 0.35,
+  },
+  yearArrowText: {
+    color: ArtisanColors.primary,
+    fontSize: 20,
+    fontWeight: "700",
+    lineHeight: 22,
+  },
+  yearValueText: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: ArtisanColors.onSurface,
+  },
+};
