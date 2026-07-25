@@ -9,7 +9,9 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { MENU_URLS } from "../api/menuApi";
+import { useCart } from "../contexts/CartContext";
 import { useMenu } from "../contexts/MenuContext";
 
 interface PizzaImage {
@@ -45,6 +47,8 @@ export default function PizzaDetail() {
   const [selectedExtras, setSelectedExtras] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [toastVisible, setToastVisible] = useState(false);
+  const actualPrice = quantity * Number(pizza.price / 100);
+  const { addToCart } = useCart();
 
   // const toggleExtra = (index: number) => {
   //   const next = [...selectedExtras];
@@ -59,58 +63,62 @@ export default function PizzaDetail() {
   const handleAddToCart = () => {
     setToastVisible(true);
     setTimeout(() => setToastVisible(false), 3000);
+    console.log(pizza);
+    addToCart(pizza);
+    router.back();
   };
 
   return (
-    <View style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => router.back()}
-        >
-          <Text style={styles.backIcon}>←</Text>
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Dettaglio Pizza</Text>
-        <TouchableOpacity style={styles.favButton}>
-          <Text style={styles.favIcon}>♡</Text>
-        </TouchableOpacity>
-      </View>
-
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContent}
-      >
-        {/* Hero Image */}
-        <View style={styles.heroContainer}>
-          <Image
-            source={{ uri: MENU_URLS.menuImage + pizza.images[0].image_id }}
-            style={styles.heroImage}
-          />
-          <View style={styles.bestSellerBadge}>
-            <Text style={styles.bestSellerText}>BEST SELLER</Text>
-          </View>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
+        {/* Header */}
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => router.back()}
+          >
+            <Text style={styles.backIcon}>←</Text>
+          </TouchableOpacity>
+          <Text style={styles.headerTitle}>Dettaglio Pizza</Text>
+          <TouchableOpacity style={styles.favButton}>
+            <Text style={styles.favIcon}>♡</Text>
+          </TouchableOpacity>
         </View>
 
-        {/* Title & Rating */}
-        <View style={styles.titleRow}>
-          <View style={styles.titleLeft}>
-            <Text style={styles.pizzaTitle}>{pizza.name}</Text>
-            {/* <Text style={styles.pizzaSubtitle}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.scrollContent}
+        >
+          {/* Hero Image */}
+          <View style={styles.heroContainer}>
+            <Image
+              source={{ uri: MENU_URLS.menuImage + pizza.images[0].image_id }}
+              style={styles.heroImage}
+            />
+            <View style={styles.bestSellerBadge}>
+              <Text style={styles.bestSellerText}>BEST SELLER</Text>
+            </View>
+          </View>
+
+          {/* Title & Rating */}
+          <View style={styles.titleRow}>
+            <View style={styles.titleLeft}>
+              <Text style={styles.pizzaTitle}>{pizza.name}</Text>
+              {/* <Text style={styles.pizzaSubtitle}>
               La regina della tradizione napoletana
             </Text> */}
+            </View>
+            <View style={styles.ratingBox}>
+              <Text style={styles.starIcon}>⭐</Text>
+              <Text style={styles.ratingText}>4.9</Text>
+            </View>
           </View>
-          <View style={styles.ratingBox}>
-            <Text style={styles.starIcon}>⭐</Text>
-            <Text style={styles.ratingText}>4.9</Text>
-          </View>
-        </View>
 
-        {/* Ingredients */}
-        <Text style={styles.sectionLabel}>Ingredienti</Text>
-        <Text style={styles.ingredientsText}>{pizza.description}</Text>
+          {/* Ingredients */}
+          <Text style={styles.sectionLabel}>Ingredienti</Text>
+          <Text style={styles.ingredientsText}>{pizza.description}</Text>
 
-        {/* Size Selection
+          {/* Size Selection
         <Text style={styles.sectionTitle}>Dimensione</Text>
         <View style={styles.sizeRow}>
           {SIZES.map((size, i) => (
@@ -129,8 +137,8 @@ export default function PizzaDetail() {
           ))}
         </View> */}
 
-        {/*  */}
-        {/* <Text style={styles.sectionTitle}>Scelta Impasto</Text>
+          {/*  */}
+          {/* <Text style={styles.sectionTitle}>Scelta Impasto</Text>
         <View style={styles.doughList}>
           {DOUGHS.map((dough, i) => (
             <TouchableOpacity
@@ -152,7 +160,7 @@ export default function PizzaDetail() {
           ))}
         </View> */}
 
-        {/* Extras
+          {/* Extras
         <Text style={styles.sectionTitle}>Aggiungi Extra</Text>
         <View style={styles.extrasList}>
           {EXTRAS.map((extra, i) => (
@@ -169,46 +177,47 @@ export default function PizzaDetail() {
             </TouchableOpacity>
           ))}
         </View>*/}
-      </ScrollView>
+        </ScrollView>
 
-      {/* Toast */}
-      {toastVisible && (
-        <View style={styles.toast}>
-          <Text style={styles.toastIcon}>✅</Text>
-          <Text style={styles.toastText}>Pizza aggiunta al carrello!</Text>
-        </View>
-      )}
-
-      {/* Bottom Bar */}
-      <View style={styles.bottomBar}>
-        <View style={styles.qtyRow}>
-          <TouchableOpacity
-            style={styles.qtyButton}
-            onPress={() => adjustQty(-1)}
-          >
-            <Text style={styles.qtyButtonText}>−</Text>
-          </TouchableOpacity>
-          <Text style={styles.qtyValue}>{quantity}</Text>
-          <TouchableOpacity
-            style={styles.qtyButton}
-            onPress={() => adjustQty(1)}
-          >
-            <Text style={styles.qtyButtonText}>+</Text>
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity
-          style={styles.cartButton}
-          onPress={handleAddToCart}
-          activeOpacity={0.8}
-        >
-          <Text style={styles.cartButtonLabel}>AGGIUNGI</Text>
-          <View style={styles.cartButtonRight}>
-            <Text style={styles.cartButtonPrice}>€</Text>
-            <Text style={styles.cartButtonIcon}>🛒</Text>
+        {/* Toast */}
+        {toastVisible && (
+          <View style={styles.toast}>
+            <Text style={styles.toastIcon}>✅</Text>
+            <Text style={styles.toastText}>Pizza aggiunta al carrello!</Text>
           </View>
-        </TouchableOpacity>
+        )}
+
+        {/* Bottom Bar */}
+        <View style={styles.bottomBar}>
+          <View style={styles.qtyRow}>
+            <TouchableOpacity
+              style={styles.qtyButton}
+              onPress={() => adjustQty(-1)}
+            >
+              <Text style={styles.qtyButtonText}>−</Text>
+            </TouchableOpacity>
+            <Text style={styles.qtyValue}>{quantity}</Text>
+            <TouchableOpacity
+              style={styles.qtyButton}
+              onPress={() => adjustQty(1)}
+            >
+              <Text style={styles.qtyButtonText}>+</Text>
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity
+            style={styles.cartButton}
+            onPress={handleAddToCart}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.cartButtonLabel}>AGGIUNGI</Text>
+            <View style={styles.cartButtonRight}>
+              <Text style={styles.cartButtonPrice}>{actualPrice}€</Text>
+              <Text style={styles.cartButtonIcon}>🛒</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

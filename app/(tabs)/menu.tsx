@@ -5,23 +5,13 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { MENU_URLS } from "../api/menuApi";
+import { useCart } from "../contexts/CartContext";
 import { useMenu } from "../contexts/MenuContext";
-
-const CHEF_IMAGE =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuBOWpu-DZgVVMTUnb7SlK4AAoaYwEFE3vIv9o2D_fvRiD5pZDUjYQKjL7PyztME_jauZyaAE4pZTiogTA1ylKMyKjIQVX8LbDfyetaxzX1YkzjjGbggW9P1fRe3jEpV7lO7FAUVbqubvTOZVlSyUoNovY9HARsHhT5qa_S2hcLU16NU168Kaq9Br_Us0oHYPvMUe2t8Mkjbkun7FrRstHeHpOQ1u6sOo64rEKvvZixIGQZk7Yjmkl3gTwe_rk5UT9eXJke8Ju5nLA";
-const PIZZA1_IMG =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuAycIM_3o-y2DXOk9xbvBoLi3m7ih69mU0O5VEukfYAyJ4_qEALkohPtK0rqqjgIJbsmkEzxF3K0G89d0CnvWxwDS5o2DO0sI6Bo8OBN9rDk7df_hzvHaMRQiQ8WrL48gTQ8Bitcqg4hVndBMvUZSAtKMoiJivlSzoErFihHKtaEpVLsaob_gU4cfq2vEMHTCKA37oMoeBFXur1iic2rl7xpGO4bhHgQe8v3uaWDkM_XKyDyaWeqLSKjrsjeQtdyalQQ5ViZzHi3Q";
-const PIZZA2_IMG =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuD3NTzh01u0nu1KQYG9FbgOv5q-xKCqctuV1sPRKmqNv9UDTil5kLMvCSeMy6LoNiPQTomGq1RROFgdrIsGnsC7Kus2R6sGfvSr7dfXGEaVgkpqKbvb5K2nRFznOeQwLVVRIh-X1iJfQ3v8hcFTmBJScuK5pzfnm9hvBP-UVtw_Tey0z9VfIKqRrSjgnv3hW6bKUUiu0Z3FDzQfy4_XWQI2beGW-XYXEE3psdscmCXUiWyLl0Aan6h0EDWwMXE4RgdxG-UNy0SHoA";
-const PIZZA3_IMG =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuD13-Puk75DY7Uo6lV6hUM9yXkUcvJNOaylid8r3cwJANSuJTYcaY9yZqmjGJcd8deZ4YMuCuPGPujXojQrFIh7iYojp8fOguy5IXUlSynyWK82Xxcbgv3b9JjIrCy_VzS1COxTmR_izzzbtCclzL_DFzYo0tkiP2_KXPLsivc7D126ppIx1WUKoaqlgxCrBKAeJS07vWBdQ8C-Sl1VnBFC1aL9sLEcjRPYswObXyw3zYW82tJ7BZ07e7Ptcy0dMm002tkqhYWPgA";
-const PIZZA4_IMG =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuCHauqnI5Nra_4eHwLsqE0AzyoVmI_ynCSuNlWm7txXzVIw51e0Eqg9GbyddTqeuS2KVDBbmAH0OKc2h6_C7Op6gieS2017e3cCJOePGAzt4gf0KepidLPc9UclYxvpbVY_aMIPgzmbEtcSi3_5KErbtGliyX1Aa3o8i0aKtAlg9VDrJ-KMnjrrFrcxTVEDg63IiJrfrHXFjRuT6wlz1Ae6YpHfFCtDmlkbq0jcNyTj85xrvc8567RN4g-jEK9BIT6pxtyMZ2htMw";
 
 const CATEGORIES = [
   "Pizze Classiche",
@@ -54,108 +44,124 @@ interface Menu {
 
 export default function MenuScreen() {
   const { menu } = useMenu();
+  const { items } = useCart();
+  const { totalPrice } = useCart();
+
   return (
-    <View style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <View style={styles.headerLeft}>
-          <View style={styles.avatarContainer}>
-            {/* <Image source={CHEF_IMAGE} style={styles.avatar}/> */}
+    <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
+        {/* Header */}
+        <View style={styles.header}>
+          <View style={styles.headerLeft}>
+            <View style={styles.avatarContainer}>
+              {/* <Image source={CHEF_IMAGE} style={styles.avatar}/> */}
+            </View>
+            <Text style={styles.greeting}>Ciao, Luigi!</Text>
           </View>
-          <Text style={styles.greeting}>Ciao, Luigi!</Text>
+          <TouchableOpacity style={styles.iconButton}>
+            <Text style={styles.iconText}>🔔</Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.iconButton}>
-          <Text style={styles.iconText}>🔔</Text>
-        </TouchableOpacity>
-      </View>
 
-      {/* Search */}
-      <View style={styles.searchContainer}>
-        <View style={styles.searchInputWrapper}>
-          <Text style={styles.searchIcon}>🔍</Text>
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Cerca la tua pizza..."
-            placeholderTextColor={ArtisanColors.outline}
-          />
-        </View>
-        <TouchableOpacity style={styles.filterButton}>
-          <Text style={styles.filterIcon}>⚙️</Text>
-        </TouchableOpacity>
-      </View>
+        {/* Search
+        <View style={styles.searchContainer}>
+          <View style={styles.searchInputWrapper}>
+            <Text style={styles.searchIcon}>🔍</Text>
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Cerca la tua pizza..."
+              placeholderTextColor={ArtisanColors.outline}
+            />
+          </View> */}
+        {/* <TouchableOpacity style={styles.filterButton}>
+            <Text style={styles.filterIcon}>⚙️</Text>
+          </TouchableOpacity> */}
+        {/* </View> */}
 
-      {/* Categories */}
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.categoriesRow}
-      >
-        {CATEGORIES.map((cat, i) => (
-          <TouchableOpacity
-            key={i}
-            style={[styles.categoryChip, i === 0 && styles.categoryChipActive]}
-          >
-            <Text
+        {/* Categories
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.categoriesRow}
+        >
+          {CATEGORIES.map((cat, i) => (
+            <TouchableOpacity
+              key={i}
               style={[
-                styles.categoryChipText,
-                i === 0 && styles.categoryChipTextActive,
+                styles.categoryChip,
+                i === 0 && styles.categoryChipActive,
               ]}
             >
-              {cat}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
-
-      {/* Pizza List */}
-      {menu && (
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.pizzaList}
-        >
-          {(menu as Menu[]).map((pizza) => (
-            <Link
-              key={pizza.product_id}
-              href={`/pizza/${pizza.product_id}`}
-              asChild
-            >
-              <TouchableOpacity style={styles.pizzaCard} activeOpacity={0.7}>
-                <Image
-                  source={{
-                    uri: MENU_URLS.menuImage + pizza.images[0].image_id,
-                  }}
-                  style={styles.pizzaImage}
-                />
-                <View style={styles.pizzaContent}>
-                  <View style={styles.pizzaHeader}>
-                    <Text style={styles.pizzaName}>{pizza.name}</Text>
-                  </View>
-                  <Text style={styles.pizzaDesc} numberOfLines={2}>
-                    {pizza.description}
-                  </Text>
-                  <View style={styles.pizzaBottom}>
-                    <Text style={styles.pizzaPrice}>{pizza.price}</Text>
-                    <TouchableOpacity style={styles.addButton}>
-                      <Text style={styles.addButtonText}>+</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            </Link>
+              <Text
+                style={[
+                  styles.categoryChipText,
+                  i === 0 && styles.categoryChipTextActive,
+                ]}
+              >
+                {cat}
+              </Text>
+            </TouchableOpacity>
           ))}
-        </ScrollView>
-      )}
-      {/* Sticky Cart Button */}
-      <View style={styles.cartBar}>
-        <TouchableOpacity style={styles.cartButton}>
-          <Text style={styles.cartIcon}>🛒</Text>
-          <Text style={styles.cartLabel}>2 Articoli</Text>
-          <View style={styles.cartSpacer} />
-          <Text style={styles.cartTotal}>€22,00</Text>
-          <Text style={styles.cartArrow}>→</Text>
-        </TouchableOpacity>
+        </ScrollView> */}
+
+        {/* Pizza List */}
+        {menu && (
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.pizzaList}
+          >
+            {(menu as Menu[]).map((pizza) => (
+              <Link
+                key={pizza.product_id}
+                href={`/pizza/${pizza.product_id}`}
+                asChild
+              >
+                <TouchableOpacity style={styles.pizzaCard} activeOpacity={0.7}>
+                  <Image
+                    source={{
+                      uri: MENU_URLS.menuImage + pizza.images[0].image_id,
+                    }}
+                    style={styles.pizzaImage}
+                  />
+                  <View style={styles.pizzaContent}>
+                    <View style={styles.pizzaHeader}>
+                      <Text style={styles.pizzaName}>{pizza.name}</Text>
+                    </View>
+                    <Text style={styles.pizzaDesc} numberOfLines={2}>
+                      {pizza.description}
+                    </Text>
+                    <View style={styles.pizzaBottom}>
+                      <Text style={styles.pizzaPrice}>{pizza.price}</Text>
+                      {/* <TouchableOpacity
+                        style={styles.addButton}
+                      >
+                        <Text style={styles.addButtonText}>+</Text>
+                      </TouchableOpacity> */}
+                    </View>
+                  </View>
+                </TouchableOpacity>
+              </Link>
+            ))}
+          </ScrollView>
+        )}
+        {/* Sticky Cart Button */}
+        <View style={styles.cartBar}>
+          <TouchableOpacity
+            style={styles.cartButton}
+            onPress={() => console.log()}
+          >
+            <Text style={styles.cartIcon}>🛒</Text>
+            <Text style={styles.cartLabel}>
+              {" "}
+              {items.length} {items.length === 1 ? "Articolo" : "Articoli"}
+            </Text>
+            <View style={styles.cartSpacer} />
+            <Text style={styles.cartTotal}>{totalPrice}</Text>
+            <Text style={styles.cartArrow}>→</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -373,7 +379,7 @@ const styles = StyleSheet.create({
   },
   cartBar: {
     position: "absolute",
-    bottom: 96,
+    bottom: 36,
     left: 16,
     right: 16,
     alignItems: "center",
