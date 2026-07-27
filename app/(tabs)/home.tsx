@@ -5,7 +5,6 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
   useWindowDimensions,
@@ -63,7 +62,7 @@ export default function HomeScreen() {
             </View>
           </View>
 
-          {/* Search Bar */}
+          {/* Search Bar
           <View style={styles.searchContainer}>
             <View style={styles.searchInputWrapper}>
               <Text style={styles.searchIcon}>🔍</Text>
@@ -73,7 +72,7 @@ export default function HomeScreen() {
                 placeholderTextColor={ArtisanColors.outline}
               />
             </View>
-          </View>
+          </View> */}
 
           {/* Promo Banner */}
           <View style={styles.promoContainer}>
@@ -342,8 +341,9 @@ const styles = StyleSheet.create({
     color: ArtisanColors.onSurface,
   },
   promoContainer: {
-    paddingHorizontal: 16,
+    paddingHorizontal: 14,
     marginBottom: 24,
+    marginTop: 10,
   },
   promoBanner: {
     height: 176,

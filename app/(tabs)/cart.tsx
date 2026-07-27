@@ -1,5 +1,6 @@
 import { ArtisanColors } from "@/constants/theme";
 import { Image } from "expo-image";
+import { useState } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -32,9 +33,10 @@ export default function CartScreen() {
   // const subtotal = items.reduce((sum, item) => sum + item.price * item.qty, 0);
   // const total = subtotal + DELIVERY_FEE;
   const { items, removeFromCart, updateQuantity, cartTotal } = useCart();
+  const [discont, setDiscount] = useState("");
 
   const subtotal = cartTotal;
-  const total = subtotal + DELIVERY_FEE;
+  const total = subtotal + (cartTotal ? DELIVERY_FEE : 0);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.container}>
@@ -113,6 +115,8 @@ export default function CartScreen() {
             <View style={styles.promoRow}>
               <TextInput
                 style={styles.promoInput}
+                value={discont}
+                onChangeText={setDiscount}
                 placeholder="Esempio: PIZZA10"
                 placeholderTextColor={ArtisanColors.outline}
               />

@@ -1,7 +1,7 @@
 import { ArtisanColors } from "@/constants/theme";
 import { Tabs } from "expo-router";
 import React from "react";
-import { Platform, Text } from "react-native";
+import { Text } from "react-native";
 
 function TabIcon({
   name,
@@ -12,7 +12,8 @@ function TabIcon({
   size?: number;
 }) {
   const icons: Record<string, string> = {
-    home: Platform.OS === "ios" ? "⌂" : "🏠",
+    home: "🏠",
+    // home: Platform.OS === "ios" ? "⌂" : "🏠",
     menu: "🍕",
     cart: "🛒",
     orders: "📋",
@@ -36,22 +37,30 @@ export default function TabLayout() {
           shadowOffset: { width: 0, height: -4 },
           shadowOpacity: 0.06,
           shadowRadius: 12,
-          height: 60,
+          height: 70,
           paddingBottom: 8,
           paddingTop: 8,
+          paddingLeft: 8,
+          paddingRight: 8,
           borderTopLeftRadius: 16,
           borderTopRightRadius: 16,
           position: "absolute",
         },
         tabBarLabelStyle: {
           fontSize: 11,
-          fontWeight: "600",
+          fontWeight: "500",
           letterSpacing: 0.5,
         },
       }}
     >
       <Tabs.Screen
         name="index"
+        options={{
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="home"
         options={{
           title: "Home",
           tabBarIcon: ({ color }) => <TabIcon name="home" color={color} />,
@@ -88,12 +97,14 @@ export default function TabLayout() {
       <Tabs.Screen
         name="login"
         options={{
+          href: null,
           tabBarStyle: { display: "none" },
         }}
       />
       <Tabs.Screen
         name="register"
         options={{
+          href: null,
           tabBarStyle: { display: "none" },
         }}
       />
