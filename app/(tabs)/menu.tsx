@@ -12,6 +12,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { MENU_URLS } from "../api/menuApi";
 import { useCart } from "../contexts/CartContext";
 import { useMenu } from "../contexts/MenuContext";
+import { Menu } from "../interface/interface";
 
 const CATEGORIES = [
   "Pizze Classiche",
@@ -20,27 +21,6 @@ const CATEGORIES = [
   "Bevande",
   "Dolci",
 ];
-
-interface PizzaImage {
-  image_id: string;
-  object_key: string;
-  order: number;
-  created_at: string;
-}
-
-interface Menu {
-  product_id: string;
-  name: string;
-  description: string;
-  price: number;
-  is_available: boolean;
-  is_vegetarian: boolean;
-  is_vegan: boolean;
-  is_spicy: boolean;
-  created_at: string;
-  updated_at: string;
-  images: PizzaImage[];
-}
 
 export default function MenuScreen() {
   const { menu } = useMenu();
@@ -131,7 +111,7 @@ export default function MenuScreen() {
                       {pizza.description}
                     </Text>
                     <View style={styles.pizzaBottom}>
-                      <Text style={styles.pizzaPrice}>{pizza.price}</Text>
+                      <Text style={styles.pizzaPrice}>{pizza.price}€</Text>
                       {/* <TouchableOpacity
                         style={styles.addButton}
                       >
@@ -146,19 +126,18 @@ export default function MenuScreen() {
         )}
         {/* Sticky Cart Button */}
         <View style={styles.cartBar}>
-          <TouchableOpacity
-            style={styles.cartButton}
-            onPress={() => console.log()}
-          >
-            <Text style={styles.cartIcon}>🛒</Text>
-            <Text style={styles.cartLabel}>
-              {" "}
-              {items.length} {items.length === 1 ? "Articolo" : "Articoli"}
-            </Text>
-            <View style={styles.cartSpacer} />
-            <Text style={styles.cartTotal}>{totalPrice}</Text>
-            <Text style={styles.cartArrow}>→</Text>
-          </TouchableOpacity>
+          <Link href="/cart" asChild>
+            <TouchableOpacity style={styles.cartButton}>
+              <Text style={styles.cartIcon}>🛒</Text>
+              <Text style={styles.cartLabel}>
+                {" "}
+                {items.length} {items.length === 1 ? "Articolo" : "Articoli"}
+              </Text>
+              <View style={styles.cartSpacer} />
+              <Text style={styles.cartTotal}>{totalPrice}</Text>
+              <Text style={styles.cartArrow}>→</Text>
+            </TouchableOpacity>
+          </Link>
         </View>
       </View>
     </SafeAreaView>

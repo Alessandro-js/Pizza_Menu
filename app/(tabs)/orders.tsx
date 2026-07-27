@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { ArtisanColors } from '@/constants/theme';
 
 const ORDER_IMG = 'https://lh3.googleusercontent.com/aida-public/AB6AXuAepISclnGQmzk0rIwaEw-QS8EbYE0GXgoFYIenOpxm2qtIryHnrnPhzIaQ5lEIxti7BGHBQ82kcMH2-njLwHJ9w-Ncmdo5MHQHxaOGVhBMabU6JGSyLaHUGd7h5TveF2tJwY3fGn4hUjVwT_oZLDWNPzhHYVginwNNMotMMkviUquC5inaI-bM2EKttIKFhPN1D8LQmpcoplUy-aqj6NbzS4Z1td-RsuRZM2l1zdsx7C8t4IAIKqEQtxfmq3qSja5Q9NstcBxaAQ';
@@ -21,7 +22,8 @@ const STEPS = [
 
 export default function OrdersScreen() {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity style={styles.backButton}>
@@ -128,6 +130,7 @@ export default function OrdersScreen() {
         </View>
       </ScrollView>
     </View>
+    </SafeAreaView>
   );
 }
 

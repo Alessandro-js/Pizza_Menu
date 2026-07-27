@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { ArtisanColors } from "@/constants/theme";
 import { useAuth } from "../contexts/AuthContext";
 import { useLoginFlow } from "../hooks/useLoginFlow";
@@ -37,6 +38,7 @@ export default function Login() {
   } = useLoginFlow({ isAuthenticated, login, router });
 
   return (
+    <SafeAreaView style={styles.container}>
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : undefined}
       style={styles.container}
@@ -176,6 +178,7 @@ export default function Login() {
         </View>
       </Modal>
     </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 

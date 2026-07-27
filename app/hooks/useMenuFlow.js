@@ -20,11 +20,12 @@ export function useMenuFlow() {
 
       const data = await response.json();
 
-      // console.log(data);
+      console.log(data);
 
       // Se la tua API restituisce { success: true, data: [...] }
 
-      setMenu(data.data);
+      setMenu(data.data.map((item) => ({ ...item, price: item.price / 100 })));
+      console.log(menu);
     } catch (err) {
       console.error(err);
       setError("Impossibile caricare il menu.");

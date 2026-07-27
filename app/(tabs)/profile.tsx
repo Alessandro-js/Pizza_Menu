@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { ArtisanColors } from '@/constants/theme';
 import { Image } from 'expo-image';
 import { useAuth } from '../contexts/AuthContext';
@@ -31,7 +32,8 @@ export default function ProfileScreen() {
     router.replace("/login");
   };
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
         {/* Profile Header */}
         <View style={styles.profileHeader}>
@@ -89,6 +91,7 @@ export default function ProfileScreen() {
         <Text style={styles.version}>Artisan Crust v1.0.0</Text>
       </ScrollView>
     </View>
+    </SafeAreaView>
   );
 }
 

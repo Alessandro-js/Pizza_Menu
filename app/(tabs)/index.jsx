@@ -1,7 +1,7 @@
+import { ArtisanColors } from "@/constants/theme";
 import { useRouter } from "expo-router";
 import { useEffect } from "react";
 import { ActivityIndicator, Image, StyleSheet, Text, View } from "react-native";
-import { ArtisanColors } from "@/constants/theme";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function StartupScreen() {
@@ -19,16 +19,14 @@ export default function StartupScreen() {
   }, [isLoading, isAuthenticated, router]);
 
   return (
-    <View style={styles.loadingScreen}>
-      <View style={styles.loadingCard}>
-        <Image
-          source={require("../../assets/image/LogoApp.png")}
-          resizeMode="contain"
-          style={styles.loadingLogo}
-        />
-        <ActivityIndicator size="large" color="#ffffff" />
-        <Text style={styles.loadingText}>Avvio in corso...</Text>
-      </View>
+    <View style={styles.loadingCard}>
+      <Image
+        source={require("../../assets/image/LogoApp.png")}
+        resizeMode="contain"
+        style={styles.loadingLogo}
+      />
+      <ActivityIndicator size="large" color="#ffffff" />
+      <Text style={styles.loadingText}>Avvio in corso...</Text>
     </View>
   );
 }

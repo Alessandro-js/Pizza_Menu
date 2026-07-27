@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import DateTimePicker, { useDefaultStyles } from "react-native-ui-datepicker";
 import { ArtisanColors } from "@/constants/theme";
 import { useRegisterFlow } from "../hooks/useRegisterFlow";
@@ -66,6 +67,7 @@ export default function Register() {
   } = useRegisterFlow({ router });
 
   return (
+    <SafeAreaView style={styles.container}>
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : undefined}
       style={styles.container}
@@ -356,6 +358,7 @@ export default function Register() {
         </View>
       </Modal>
     </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 

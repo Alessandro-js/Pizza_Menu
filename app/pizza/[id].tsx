@@ -13,27 +13,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { MENU_URLS } from "../api/menuApi";
 import { useCart } from "../contexts/CartContext";
 import { useMenu } from "../contexts/MenuContext";
-
-interface PizzaImage {
-  image_id: string;
-  object_key: string;
-  order: number;
-  created_at: string;
-}
-
-interface Menu {
-  product_id: string;
-  name: string;
-  description: string;
-  price: number;
-  is_available: boolean;
-  is_vegetarian: boolean;
-  is_vegan: boolean;
-  is_spicy: boolean;
-  created_at: string;
-  updated_at: string;
-  images: PizzaImage[];
-}
+import { Menu } from "../interface/interface";
 
 export default function PizzaDetail() {
   const { id } = useLocalSearchParams();
@@ -47,7 +27,7 @@ export default function PizzaDetail() {
   const [selectedExtras, setSelectedExtras] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [toastVisible, setToastVisible] = useState(false);
-  const actualPrice = quantity * Number(pizza.price / 100);
+  const actualPrice = quantity * Number(pizza.price);
   const { addToCart } = useCart();
 
   // const toggleExtra = (index: number) => {
@@ -63,8 +43,8 @@ export default function PizzaDetail() {
   const handleAddToCart = () => {
     setToastVisible(true);
     setTimeout(() => setToastVisible(false), 3000);
-    console.log(pizza);
-    addToCart(pizza);
+    // console.log(pizza);
+    addToCart(pizza, quantity);
     router.back();
   };
 
