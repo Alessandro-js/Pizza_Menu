@@ -85,19 +85,21 @@ export default function HomeScreen() {
                 </View>
                 <Text style={styles.promoTitle}>Sconto 20%</Text>
                 <Text style={styles.promoSubtitle}>sulla tua prima pizza</Text>
-                <TouchableOpacity style={styles.promoButton}>
-                  <Text style={styles.promoButtonText}>Ordina Ora</Text>
-                </TouchableOpacity>
+                <Link href="/menu" asChild>
+                  <TouchableOpacity style={styles.promoButton}>
+                    <Text style={styles.promoButtonText}>Ordina Ora</Text>
+                  </TouchableOpacity>
+                </Link>
               </View>
             </View>
           </View>
 
-          {/* Categories */}
+          {/* Categories
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>Categorie</Text>
-            <TouchableOpacity>
+            {/* <TouchableOpacity>
               <Text style={styles.seeAll}>Vedi tutte</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> 
           </View>
           <ScrollView
             horizontal
@@ -130,12 +132,12 @@ export default function HomeScreen() {
                 </Text>
               </TouchableOpacity>
             ))}
-          </ScrollView>
+          </ScrollView> */}
 
           {/* Recommended */}
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>Consigliati per te</Text>
-            <Text style={styles.filterIcon}>⚙️</Text>
+            {/* <Text style={styles.filterIcon}>⚙️</Text> */}
           </View>
           <ScrollView
             horizontal
